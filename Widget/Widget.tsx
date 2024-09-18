@@ -1,9 +1,13 @@
 import { useState } from "react";
-import { ScrollView } from "react-native";
-import { Story, Dialog, AmpStoryPlayer } from "./Components";
+import { ScrollView, Button } from "react-native";
+import { Story, Dialog, CoolstoryPlayer, CloseButton } from "./Components";
 import { styles } from "./Widget.styles";
 
 const placeholder = require("../assets/placeholder.jpg");
+
+const videoUri = "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4";
+
+const localVideo = require("../assets/temp/0.mp4");
 
 const Widget = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -25,10 +29,8 @@ const Widget = () => {
     >
       <Story preview={placeholder} onPress={handleDialogOpen} />
       <Dialog open={dialogOpen} onClose={handleDialogClose}>
-        <AmpStoryPlayer
-          onClose={handleDialogClose}
-          storyHref="https://preview.amp.dev/documentation/examples/introduction/stories_in_amp/"
-        />
+        <CoolstoryPlayer uri={videoUri} />
+        <Button title="Close" onPress={handleDialogClose} />
       </Dialog>
     </ScrollView>
   );
