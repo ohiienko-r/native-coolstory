@@ -7,9 +7,6 @@ export const styles = StyleSheet.create({
     padding: 4,
     borderRadius: 50,
     borderWidth: 0,
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     overflow: "hidden",
   },
   preview: {

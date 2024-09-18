@@ -7,7 +7,7 @@ import { styles } from "./styles";
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Here is my Coolstory widget!</Text>
+      <Text>Here is our Coolstory widget!</Text>
       <Widget />
       <StatusBar style="auto" />
     </SafeAreaView>

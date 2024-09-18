@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, Button } from "react-native";
+import { ScrollView, Text, Button } from "react-native";
 import { Story, Dialog } from "./Components";
 import { styles } from "./Widget.styles";
 
@@ -17,13 +17,24 @@ const Widget = () => {
   };
 
   return (
-    <View style={styles.storyList}>
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      style={styles.storyList}
+      contentContainerStyle={styles.contentContainer}
+    >
+      <Story preview={placeholder} onPress={handleDialogOpen} />
+      <Story preview={placeholder} onPress={handleDialogOpen} />
+      <Story preview={placeholder} onPress={handleDialogOpen} />
+      <Story preview={placeholder} onPress={handleDialogOpen} />
+      <Story preview={placeholder} onPress={handleDialogOpen} />
+      <Story preview={placeholder} onPress={handleDialogOpen} />
       <Story preview={placeholder} onPress={handleDialogOpen} />
       <Dialog open={dialogOpen} onClose={handleDialogClose}>
         <Text>This is our awesome Coolstory player!</Text>
         <Button title="Close" onPress={handleDialogClose} />
       </Dialog>
-    </View>
+    </ScrollView>
   );
 };
 
