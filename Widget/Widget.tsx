@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { ScrollView, Text, Button } from "react-native";
-import { Story, Dialog } from "./Components";
+import { ScrollView } from "react-native";
+import { Story, Dialog, AmpStoryPlayer } from "./Components";
 import { styles } from "./Widget.styles";
 
 const placeholder = require("../assets/placeholder.jpg");
@@ -24,15 +24,11 @@ const Widget = () => {
       contentContainerStyle={styles.contentContainer}
     >
       <Story preview={placeholder} onPress={handleDialogOpen} />
-      <Story preview={placeholder} onPress={handleDialogOpen} />
-      <Story preview={placeholder} onPress={handleDialogOpen} />
-      <Story preview={placeholder} onPress={handleDialogOpen} />
-      <Story preview={placeholder} onPress={handleDialogOpen} />
-      <Story preview={placeholder} onPress={handleDialogOpen} />
-      <Story preview={placeholder} onPress={handleDialogOpen} />
       <Dialog open={dialogOpen} onClose={handleDialogClose}>
-        <Text>This is our awesome Coolstory player!</Text>
-        <Button title="Close" onPress={handleDialogClose} />
+        <AmpStoryPlayer
+          onClose={handleDialogClose}
+          storyHref="https://preview.amp.dev/documentation/examples/introduction/stories_in_amp/"
+        />
       </Dialog>
     </ScrollView>
   );
