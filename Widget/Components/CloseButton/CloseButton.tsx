@@ -5,7 +5,11 @@ import { styles } from "./CloseButton.styles";
 
 const CloseButton = ({ onPress }: CloseButtonPropTypes) => {
   return (
-    <Pressable onPress={onPress} style={styles.closeButton}>
+    <Pressable
+      onPress={onPress}
+      style={styles.closeButton}
+      hitSlop={{ top: 5, right: 5, bottom: 5, left: 5 }}
+    >
       <Icon.Close />
     </Pressable>
   );
