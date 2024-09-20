@@ -8,12 +8,7 @@ const Dialog = ({ open, onClose, children }: DialogPropTypes) => {
   const insets = useSafeAreaInsets();
 
   return (
-    <Modal
-      animationType="slide"
-      visible={open}
-      onRequestClose={onClose}
-      transparent
-    >
+    <Modal animationType="slide" visible={open} onRequestClose={onClose}>
       <View
         style={[
           styles.dialog,

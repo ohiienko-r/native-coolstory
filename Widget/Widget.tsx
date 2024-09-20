@@ -6,12 +6,30 @@ import { styles } from "./Widget.styles";
 
 const placeholder = require("../assets/placeholder.jpg");
 
-const videoUri = "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4";
+const data = [
+  {
+    id: 0,
+    preview: placeholder,
+    uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+  },
+  {
+    id: 1,
+    preview: placeholder,
+    uri: "https://cdn.pixabay.com/video/2024/09/06/230060_small.mp4",
+  },
+  {
+    id: 2,
+    preview: placeholder,
+    uri: "https://cdn.pixabay.com/video/2024/08/20/227567_small.mp4",
+  },
+];
 
 const Widget = () => {
+  const [uri, setUri] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const handleDialogOpen = () => {
+  const handleDialogOpen = (storyUri: string) => {
+    setUri(storyUri);
     setDialogOpen(true);
   };
 
@@ -27,9 +45,15 @@ const Widget = () => {
         style={styles.storyList}
         contentContainerStyle={styles.contentContainer}
       >
-        <Story preview={placeholder} onPress={handleDialogOpen} />
+        {data.map((story) => (
+          <Story
+            key={story.id}
+            preview={story.preview}
+            onPress={() => handleDialogOpen(story.uri)}
+          />
+        ))}
         <Dialog open={dialogOpen} onClose={handleDialogClose}>
-          <CoolstoryPlayer uri={videoUri} />
+          <CoolstoryPlayer uri={uri} />
         </Dialog>
       </ScrollView>
     </SafeAreaProvider>
