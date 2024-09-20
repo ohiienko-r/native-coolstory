@@ -1,6 +1,6 @@
 import { ImageSourcePropType } from "react-native";
 
 export type StoryPropTypes = {
-  preview: ImageSourcePropType;
+  preview?: ImageSourcePropType;
   onPress: () => void;
 };

@@ -3,6 +3,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { StoryPropTypes } from "./types";
 import { styles } from "./Story.styles";
 
+const fallbackIcon = require("../../../assets/fallback_icon.png");
+
 const Story = ({ preview, onPress }: StoryPropTypes) => {
   return (
     <Pressable onPress={onPress}>
@@ -21,7 +23,14 @@ const Story = ({ preview, onPress }: StoryPropTypes) => {
         end={{ x: 1, y: 1 }}
         style={styles.story}
       >
-        <Image source={preview} style={styles.preview}></Image>
+        {preview ? (
+          <Image source={preview} style={styles.preview}></Image>
+        ) : (
+          <Image
+            source={fallbackIcon}
+            style={{ width: "100%", height: "100%", borderRadius: 50 }}
+          ></Image>
+        )}
       </LinearGradient>
     </Pressable>
   );

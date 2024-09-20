@@ -9,7 +9,6 @@ const placeholder = require("../assets/placeholder.jpg");
 const data = [
   {
     id: 0,
-    preview: placeholder,
     uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
   },
   {
