@@ -1,3 +1,3 @@
 export type CoolstoryPlayerPropTypes = {
-  uri: string;
+  stories: string[];
 };

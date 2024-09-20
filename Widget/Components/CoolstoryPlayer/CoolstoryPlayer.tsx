@@ -6,16 +6,19 @@ import {
   AVPlaybackStatusSuccess,
 } from "expo-av";
 import {
+  View,
   Pressable,
   LayoutChangeEvent,
   GestureResponderEvent,
 } from "react-native";
+import PagerView from "react-native-pager-view";
 import { CoolstoryPlayerPropTypes } from "./types";
 import { styles } from "./CoolstoryPlayer.styles";
 
-const CoolstoryPlayer = ({ uri }: CoolstoryPlayerPropTypes) => {
+const CoolstoryPlayer = ({ stories }: CoolstoryPlayerPropTypes) => {
   const [status, setStatus] = useState<AVPlaybackStatus | null>(null);
   const [viewWidth, setViewWidth] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
   const video = useRef<React.ElementRef<typeof Video>>(null);
 
   const isPlaying = (
@@ -54,7 +57,11 @@ const CoolstoryPlayer = ({ uri }: CoolstoryPlayerPropTypes) => {
   };
 
   const handleRightPress = () => {
-    console.log("Go forward");
+    if (stories.length < 2) return;
+
+    if (currentPage < stories.length - 1) {
+      setCurrentPage((prev) => prev + 1);
+    }
   };
 
   const handleLeftPress = () => {
@@ -62,24 +69,30 @@ const CoolstoryPlayer = ({ uri }: CoolstoryPlayerPropTypes) => {
   };
 
   return (
-    <Pressable
-      style={styles.container}
-      onLayout={onLayout}
-      delayLongPress={100}
-      onLongPress={handleLongPress}
-      onPressIn={handlePressIn}
-      onPressOut={handlePressOut}
-    >
-      <Video
-        ref={video}
-        source={{ uri: uri }}
-        resizeMode={ResizeMode.CONTAIN}
-        isLooping
-        shouldPlay
-        onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-        style={styles.video}
-      />
-    </Pressable>
+    <PagerView style={{ flex: 1 }} initialPage={0}>
+      {stories.map((story, index) => (
+        <View style={styles.container} key={index}>
+          <Pressable
+            style={styles.container}
+            onLayout={onLayout}
+            delayLongPress={100}
+            onLongPress={handleLongPress}
+            onPressIn={handlePressIn}
+            onPressOut={handlePressOut}
+          >
+            <Video
+              ref={video}
+              source={{ uri: story }}
+              resizeMode={ResizeMode.CONTAIN}
+              isLooping
+              shouldPlay
+              onPlaybackStatusUpdate={(status) => setStatus(() => status)}
+              style={styles.video}
+            />
+          </Pressable>
+        </View>
+      ))}
+    </PagerView>
   );
 };
 
