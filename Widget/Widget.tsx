@@ -22,6 +22,21 @@ const data = [
     preview: placeholder,
     uri: "https://cdn.pixabay.com/video/2024/08/20/227567_small.mp4",
   },
+  {
+    id: 3,
+    preview: placeholder,
+    uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+  },
+  {
+    id: 4,
+    preview: placeholder,
+    uri: "https://cdn.pixabay.com/video/2024/09/06/230060_small.mp4",
+  },
+  {
+    id: 5,
+    preview: placeholder,
+    uri: "https://cdn.pixabay.com/video/2024/08/20/227567_small.mp4",
+  },
 ];
 
 const Widget = () => {
@@ -52,10 +67,10 @@ const Widget = () => {
             onPress={() => handleDialogOpen(story.uri)}
           />
         ))}
-        <Dialog open={dialogOpen} onClose={handleDialogClose}>
-          <CoolstoryPlayer uri={uri} />
-        </Dialog>
       </ScrollView>
+      <Dialog open={dialogOpen} onClose={handleDialogClose}>
+        <CoolstoryPlayer uri={uri} />
+      </Dialog>
     </SafeAreaProvider>
   );
 };

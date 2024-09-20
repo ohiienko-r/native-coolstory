@@ -3,6 +3,7 @@ import { Icon } from "..";
 import { CloseButtonPropTypes } from "./types";
 import { styles } from "./CloseButton.styles";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 const CloseButton = ({ onPress }: CloseButtonPropTypes) => {
   const insets = useSafeAreaInsets();
   return (
