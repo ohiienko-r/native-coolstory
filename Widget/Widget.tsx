@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ScrollView } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Story, Dialog, CoolstoryPlayer } from "./Components";
 import { styles } from "./Widget.styles";
 
@@ -19,17 +20,19 @@ const Widget = () => {
   };
 
   return (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      style={styles.storyList}
-      contentContainerStyle={styles.contentContainer}
-    >
-      <Story preview={placeholder} onPress={handleDialogOpen} />
-      <Dialog open={dialogOpen} onClose={handleDialogClose}>
-        <CoolstoryPlayer uri={videoUri} />
-      </Dialog>
-    </ScrollView>
+    <SafeAreaProvider>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={styles.storyList}
+        contentContainerStyle={styles.contentContainer}
+      >
+        <Story preview={placeholder} onPress={handleDialogOpen} />
+        <Dialog open={dialogOpen} onClose={handleDialogClose}>
+          <CoolstoryPlayer uri={videoUri} />
+        </Dialog>
+      </ScrollView>
+    </SafeAreaProvider>
   );
 };
 
