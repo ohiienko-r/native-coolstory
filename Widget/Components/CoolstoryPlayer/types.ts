@@ -1,3 +1,5 @@
+import { StoryUri } from "../../types";
+
 export type CoolstoryPlayerPropTypes = {
-  stories: string[];
+  stories: StoryUri[] | undefined;
 };

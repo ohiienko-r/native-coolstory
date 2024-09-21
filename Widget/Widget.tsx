@@ -1,49 +1,63 @@
 import { useState } from "react";
 import { ScrollView } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Story, Dialog, CoolstoryPlayer } from "./Components";
+import { StoryPreviewButton, Dialog, CoolstoryPlayer } from "./Components";
+import { Story } from "./types";
 import { styles } from "./Widget.styles";
 
 const placeholder = require("../assets/placeholder.jpg");
 
-const data = [
+const data: Story[] = [
   {
     id: 0,
-    uri: ["https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"],
+    uri: [
+      {
+        key: 0,
+        type: "video",
+        uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+      },
+      {
+        key: 1,
+        type: "video",
+        uri: "https://cdn.pixabay.com/video/2024/09/06/230060_small.mp4",
+      },
+      {
+        key: 2,
+        type: "video",
+        uri: "https://cdn.pixabay.com/video/2024/08/20/227567_small.mp4",
+      },
+    ],
   },
   {
     id: 1,
     preview: placeholder,
-    uri: ["https://cdn.pixabay.com/video/2024/09/06/230060_small.mp4"],
+    uri: [
+      {
+        key: 0,
+        type: "video",
+        uri: "https://cdn.pixabay.com/video/2024/09/06/230060_small.mp4",
+      },
+    ],
   },
   {
     id: 2,
     preview: placeholder,
-    uri: ["https://cdn.pixabay.com/video/2024/08/20/227567_small.mp4"],
-  },
-  {
-    id: 3,
-    preview: placeholder,
-    uri: ["https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"],
-  },
-  {
-    id: 4,
-    preview: placeholder,
-    uri: ["https://cdn.pixabay.com/video/2024/09/06/230060_small.mp4"],
-  },
-  {
-    id: 5,
-    preview: placeholder,
-    uri: ["https://cdn.pixabay.com/video/2024/08/20/227567_small.mp4"],
+    uri: [
+      {
+        key: 0,
+        type: "video",
+        uri: "https://cdn.pixabay.com/video/2024/08/20/227567_small.mp4",
+      },
+    ],
   },
 ];
 
 const Widget = () => {
-  const [uri, setUri] = useState([""]);
+  const [story, setSory] = useState<Story | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const handleDialogOpen = (storyUri: string[]) => {
-    setUri(storyUri);
+  const handleDialogOpen = (story: Story) => {
+    setSory(story);
     setDialogOpen(true);
   };
 
@@ -59,16 +73,16 @@ const Widget = () => {
         style={styles.storyList}
         contentContainerStyle={styles.contentContainer}
       >
-        {data.map((story) => (
-          <Story
+        {data?.map((story) => (
+          <StoryPreviewButton
             key={story.id}
             preview={story.preview}
-            onPress={() => handleDialogOpen(story.uri)}
+            onPress={() => handleDialogOpen(story)}
           />
         ))}
       </ScrollView>
       <Dialog open={dialogOpen} onClose={handleDialogClose}>
-        <CoolstoryPlayer stories={uri} />
+        <CoolstoryPlayer stories={story?.uri} />
       </Dialog>
     </SafeAreaProvider>
   );

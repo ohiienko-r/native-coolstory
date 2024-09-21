@@ -1,11 +1,14 @@
 import { Pressable, Image } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { StoryPropTypes } from "./types";
-import { styles } from "./Story.styles";
+import { StoryPreviewButtonPropTypes } from "./types";
+import { styles } from "./StoryPreviewButton.styles";
 
 const fallbackIcon = require("../../../assets/fallback_icon.png");
 
-const Story = ({ preview, onPress }: StoryPropTypes) => {
+const StoryPreviewButton = ({
+  preview,
+  onPress,
+}: StoryPreviewButtonPropTypes) => {
   return (
     <Pressable onPress={onPress}>
       <LinearGradient
@@ -36,4 +39,4 @@ const Story = ({ preview, onPress }: StoryPropTypes) => {
   );
 };
 
-export default Story;
+export default StoryPreviewButton;
