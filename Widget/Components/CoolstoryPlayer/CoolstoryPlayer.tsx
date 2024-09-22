@@ -20,10 +20,6 @@ const CoolstoryPlayer = ({ stories }: CoolstoryPlayerPropTypes) => {
   const [currentStory, setCurrentStory] = useState(0);
   const videoRef = useRef<React.ElementRef<typeof Video>>(null);
 
-  if (stories === undefined || stories.length === 0) {
-    return <div>Ooops, nothing to display yet</div>;
-  }
-
   const isPlaying = useCallback(
     (status: AVPlaybackStatus | null): status is AVPlaybackStatusSuccess => {
       return status != null && (status as AVPlaybackStatusSuccess).isPlaying;
@@ -49,10 +45,8 @@ const CoolstoryPlayer = ({ stories }: CoolstoryPlayerPropTypes) => {
       const rightZone = viewWidth * 0.8;
 
       if (locationX < leftZone) {
-        console.log("Left press");
         handleLeftPress();
       } else if (locationX > rightZone) {
-        console.log("right press");
         handleRightPress();
       }
     },
@@ -65,12 +59,12 @@ const CoolstoryPlayer = ({ stories }: CoolstoryPlayerPropTypes) => {
 
   const handleRightPress = useCallback(() => {
     setCurrentStory((prevStory) => {
-      if (prevStory < stories.length - 1) {
+      if (stories && prevStory < stories.length - 1) {
         return prevStory + 1;
       }
       return prevStory;
     });
-  }, [stories.length]);
+  }, [stories?.length]);
 
   const handleLeftPress = useCallback(() => {
     setCurrentStory((prevStory) => {
@@ -93,8 +87,7 @@ const CoolstoryPlayer = ({ stories }: CoolstoryPlayerPropTypes) => {
   );
 
   useEffect(() => {
-    if (videoRef.current) {
-      console.log(currentStory);
+    if (stories && videoRef.current) {
       videoRef.current.loadAsync(
         { uri: stories[currentStory].uri },
         { shouldPlay: true }
