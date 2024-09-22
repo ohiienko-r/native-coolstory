@@ -16,7 +16,7 @@ import { ProgressBar } from "..";
 import { CoolstoryPlayerPropTypes } from "./types";
 import { styles } from "./CoolstoryPlayer.styles";
 
-const CoolstoryPlayer = ({ stories }: CoolstoryPlayerPropTypes) => {
+const CoolstoryPlayer = ({ stories, isActive }: CoolstoryPlayerPropTypes) => {
   const [status, setStatus] = useState<AVPlaybackStatus | null>(null);
   const [viewWidth, setViewWidth] = useState(0);
   const [currentStory, setCurrentStory] = useState(0);
@@ -90,10 +90,20 @@ const CoolstoryPlayer = ({ stories }: CoolstoryPlayerPropTypes) => {
     if (videoRef.current) {
       videoRef.current.loadAsync(
         { uri: stories[currentStory].uri },
-        { shouldPlay: true }
+        { shouldPlay: isActive }
       );
     }
   }, [currentStory, stories]);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      if (isActive) {
+        videoRef.current.playAsync();
+      } else {
+        videoRef.current.stopAsync();
+      }
+    }
+  }, [isActive]);
 
   if (stories.length === 0)
     return (
