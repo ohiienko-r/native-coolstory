@@ -2,7 +2,8 @@ import { useState, useRef } from "react";
 import { ScrollView, View, FlatList, Dimensions } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StoryPreviewButton, Dialog, CoolstoryPlayer } from "./Components";
-import { Story } from "./types";
+import { Story, RenderItemPropTypes, ScrollToIndexInfo } from "./types";
+import { NativeSyntheticEvent, NativeScrollEvent } from "react-native";
 import { styles } from "./Widget.styles";
 
 const placeholder = require("../assets/placeholder.jpg");
@@ -71,6 +72,42 @@ const Widget = () => {
     setCurrentStoryIndex(null);
   };
 
+  const handleGetItemLayout = (_data: any, index: number) => ({
+    length: windowWidth,
+    offset: windowWidth * index,
+    index,
+  });
+
+  const handleKeyExtraction = (item: Story) => item.id.toString();
+
+  const renderItem = ({ item, index }: RenderItemPropTypes) => (
+    <View style={{ width: windowWidth }}>
+      <CoolstoryPlayer
+        stories={item.uri}
+        isActive={currentStoryIndex === index}
+      />
+    </View>
+  );
+
+  const handleOnScrollToIndexFailed = (info: ScrollToIndexInfo) => {
+    console.warn("Scroll to index failed:", info);
+    if (currentStoryIndex !== null) {
+      flatListRef.current?.scrollToIndex({ index: 0, animated: true });
+    }
+  };
+
+  const handleOnMomentumScrollEnd = (
+    e: NativeSyntheticEvent<NativeScrollEvent>
+  ) => {
+    const index = Math.floor(e.nativeEvent.contentOffset.x / windowWidth);
+    setCurrentStoryIndex(index);
+  };
+
+  const inititalScrollIndex =
+    currentStoryIndex !== null
+      ? Math.min(currentStoryIndex, data.length - 1)
+      : 0;
+
   return (
     <SafeAreaProvider>
       <ScrollView
@@ -94,37 +131,12 @@ const Widget = () => {
           horizontal
           pagingEnabled
           showsHorizontalScrollIndicator={false}
-          getItemLayout={(_data, index) => ({
-            length: windowWidth,
-            offset: windowWidth * index,
-            index,
-          })}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item, index }) => (
-            <View style={{ width: windowWidth }}>
-              <CoolstoryPlayer
-                stories={item.uri}
-                isActive={currentStoryIndex === index}
-              />
-            </View>
-          )}
-          initialScrollIndex={
-            currentStoryIndex !== null
-              ? Math.min(currentStoryIndex, data.length - 1)
-              : 0
-          }
-          onScrollToIndexFailed={(info) => {
-            console.warn("Scroll to index failed:", info);
-            if (currentStoryIndex !== null) {
-              flatListRef.current?.scrollToIndex({ index: 0, animated: true });
-            }
-          }}
-          onMomentumScrollEnd={(event) => {
-            const index = Math.floor(
-              event.nativeEvent.contentOffset.x / windowWidth
-            );
-            setCurrentStoryIndex(index);
-          }}
+          getItemLayout={handleGetItemLayout}
+          keyExtractor={handleKeyExtraction}
+          renderItem={renderItem}
+          initialScrollIndex={inititalScrollIndex}
+          onScrollToIndexFailed={handleOnScrollToIndexFailed}
+          onMomentumScrollEnd={handleOnMomentumScrollEnd}
         />
       </Dialog>
     </SafeAreaProvider>

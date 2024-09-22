@@ -14,3 +14,14 @@ export type Story = {
   uri: StoryUri[];
   preview?: ImageSourcePropType;
 };
+
+export type RenderItemPropTypes = {
+  item: Story;
+  index: number;
+};
+
+export type ScrollToIndexInfo = {
+  index: number;
+  highestMeasuredFrameIndex: number;
+  averageItemLength: number;
+};
