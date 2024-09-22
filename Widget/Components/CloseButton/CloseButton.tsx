@@ -9,7 +9,7 @@ const CloseButton = ({ onPress }: CloseButtonPropTypes) => {
   return (
     <Pressable
       onPress={onPress}
-      style={[styles.closeButton, { top: insets.top + 10 }]}
+      style={[styles.closeButton, { top: insets.top + 40 }]}
       hitSlop={{ top: 5, right: 5, bottom: 5, left: 5 }}
     >
       <Icon.Close />

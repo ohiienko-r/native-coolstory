@@ -1,5 +1,6 @@
 import { StoryUri } from "../../types";
 
-export type CoolstoryPlayerPropTypes = {
+export type ProgressBarPropTypes = {
   stories: StoryUri[];
+  currentStory: number;
 };

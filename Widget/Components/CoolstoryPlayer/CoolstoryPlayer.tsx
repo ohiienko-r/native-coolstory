@@ -7,10 +7,12 @@ import {
 } from "expo-av";
 import {
   View,
+  Text,
   Pressable,
   GestureResponderEvent,
   LayoutChangeEvent,
 } from "react-native";
+import { ProgressBar } from "..";
 import { CoolstoryPlayerPropTypes } from "./types";
 import { styles } from "./CoolstoryPlayer.styles";
 
@@ -41,12 +43,10 @@ const CoolstoryPlayer = ({ stories }: CoolstoryPlayerPropTypes) => {
   const handlePressIn = useCallback(
     (e: GestureResponderEvent) => {
       const { locationX } = e.nativeEvent;
-      const leftZone = viewWidth * 0.2;
-      const rightZone = viewWidth * 0.8;
 
-      if (locationX < leftZone) {
+      if (locationX < viewWidth * 0.2) {
         handleLeftPress();
-      } else if (locationX > rightZone) {
+      } else if (locationX > viewWidth * 0.8) {
         handleRightPress();
       }
     },
@@ -59,12 +59,12 @@ const CoolstoryPlayer = ({ stories }: CoolstoryPlayerPropTypes) => {
 
   const handleRightPress = useCallback(() => {
     setCurrentStory((prevStory) => {
-      if (stories && prevStory < stories.length - 1) {
+      if (prevStory < stories.length - 1) {
         return prevStory + 1;
       }
       return prevStory;
     });
-  }, [stories?.length]);
+  }, [stories.length]);
 
   const handleLeftPress = useCallback(() => {
     setCurrentStory((prevStory) => {
@@ -87,7 +87,7 @@ const CoolstoryPlayer = ({ stories }: CoolstoryPlayerPropTypes) => {
   );
 
   useEffect(() => {
-    if (stories && videoRef.current) {
+    if (videoRef.current) {
       videoRef.current.loadAsync(
         { uri: stories[currentStory].uri },
         { shouldPlay: true }
@@ -95,10 +95,18 @@ const CoolstoryPlayer = ({ stories }: CoolstoryPlayerPropTypes) => {
     }
   }, [currentStory, stories]);
 
+  if (stories.length === 0)
+    return (
+      <View style={styles.fallback}>
+        <Text style={styles.fallbackText}>Oops! Nothing to display yet.</Text>
+      </View>
+    );
+
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.playerContainer}>
+      <ProgressBar stories={stories} currentStory={currentStory} />
       <Pressable
-        style={styles.container}
+        style={styles.videoContainer}
         onLayout={onLayout}
         delayLongPress={100}
         onLongPress={handleLongPress}

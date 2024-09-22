@@ -50,10 +50,19 @@ const data: Story[] = [
       },
     ],
   },
+  {
+    id: 3,
+    preview: placeholder,
+    uri: [],
+  },
 ];
 
 const Widget = () => {
-  const [story, setSory] = useState<Story | null>(null);
+  const [story, setSory] = useState<Story>({
+    id: NaN,
+    preview: undefined,
+    uri: [],
+  });
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleDialogOpen = (story: Story) => {
@@ -82,7 +91,7 @@ const Widget = () => {
         ))}
       </ScrollView>
       <Dialog open={dialogOpen} onClose={handleDialogClose}>
-        <CoolstoryPlayer stories={story?.uri} />
+        <CoolstoryPlayer stories={story.uri} />
       </Dialog>
     </SafeAreaProvider>
   );
